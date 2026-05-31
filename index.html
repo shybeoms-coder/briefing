@@ -743,6 +743,7 @@
       c.innerHTML =
         `<div class="top"><span class="rname">${esc(r.name)}</span><span class="rcode">${esc(r.code)}</span><span class="rdate">${esc(r.date)}</span></div>` +
         `<div class="rtitle">${esc(r.title)}</div>` +
+        ((r.price||r.change)?`<div class="meta" style="margin-bottom:10px"><span class="price">현재가 ${esc(r.price||"-")}</span><span class="chg ${chgClass(r.change)}" style="min-width:0;margin-left:8px">${esc(r.change||"")}</span></div>`:"") +
         `<div class="meta"><span class="tag broker">${esc(r.broker)}</span><span class="tag buy">${esc(r.opinion)}</span>` +
         `<span class="target">목표가<b>${esc(r.target)}</b></span></div>` +
         `<div class="open">🧭 리포트 PDF 열기 →</div>`;
