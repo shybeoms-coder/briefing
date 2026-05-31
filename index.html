@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no" />
+<title>관심종목 브리핑</title>
+
+<!-- iOS 홈 화면 추가 시 전체화면 앱처럼 -->
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="default" />
+<meta name="apple-mobile-web-app-title" content="브리핑" />
+<meta name="theme-color" content="#ffffff" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="icon-180.png" />
+<link rel="icon" href="icon.svg" type="image/svg+xml" />
+
+<!-- Liner 느낌의 Pretendard 폰트 (실패해도 시스템 폰트로 대체) -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+<style>
+  :root {
+    --accent: #00c471;          /* Liner 민트그린 */
+    --accent-soft: #e3f9ee;
+    --accent-press: #00a862;
+    --up: #f23645;              /* 한국식 상승 = 빨강 */
+    --down: #2f6fed;            /* 한국식 하락 = 파랑 */
+    --bg: #f5f6f8;
+    --card: #ffffff;
+    --border: #eceef1;
+    --text: #16181d;
+    --text-2: #6b7280;
+    --text-3: #9aa1ab;
+    --shadow: 0 1px 2px rgba(16,24,40,.04), 0 4px 16px rgba(16,24,40,.05);
+    --radius: 18px;
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --accent: #1fd486;
+      --accent-soft: #10311f;
+      --bg: #0c0d10;
+      --card: #16181d;
+      --border: #24262d;
+      --text: #f3f4f6;
+      --text-2: #9aa1ab;
+      --text-3: #6b7280;
+      --shadow: none;
+    }
+  }
+
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+                 "Apple SD Gothic Neo", system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+    line-height: 1.45;
+    overscroll-behavior-y: contain;
+  }
+
+  /* ===== 상단 바 ===== */
+  header {
+    position: sticky; top: 0; z-index: 30;
+    padding: calc(var(--safe-top) + 10px) 16px 10px;
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter: saturate(180%) blur(16px);
+    -webkit-backdrop-filter: saturate(180%) blur(16px);
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .brand { display: flex; flex-direction: column; min-width: 0; flex: 1; }
+  .brand h1 {
+    font-size: 19px; font-weight: 800; margin: 0; letter-spacing: -.4px;
+    display: flex; align-items: center; gap: 7px;
+  }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex: none; }
+  .updated { font-size: 11.5px; color: var(--text-3); margin-top: 1px; }
+  .iconbtn {
+    width: 38px; height: 38px; border-radius: 12px; border: 1px solid var(--border);
+    background: var(--card); color: var(--text); font-size: 17px; flex: none;
+    display: grid; place-items: center; cursor: pointer; transition: .15s;
+  }
+  .iconbtn:active { transform: scale(.92); background: var(--accent-soft); }
+
+  /* ===== 본문 ===== */
+  main {
+    padding: 14px 16px calc(96px + var(--safe-bottom));
+    max-width: 640px; margin: 0 auto;
+  }
+  .ptr {
+    text-align: center; color: var(--text-3); font-size: 12.5px;
+    height: 0; overflow: hidden; transition: height .2s; display: grid; place-items: center;
+  }
+
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); box-shadow: var(--shadow);
+    padding: 18px; margin-bottom: 14px;
+  }
+  .card-head { display: flex; align-items: center; gap: 9px; margin-bottom: 14px; }
+  .chip {
+    width: 30px; height: 30px; border-radius: 9px; background: var(--accent-soft);
+    color: var(--accent); display: grid; place-items: center; font-size: 15px; flex: none;
+  }
+  .card-head h2 { font-size: 15.5px; font-weight: 700; margin: 0; flex: 1; letter-spacing: -.3px; }
+  .card-sub { font-size: 11.5px; color: var(--text-3); font-weight: 500; }
+
+  .grp-label { font-size: 13px; font-weight: 700; margin: 4px 0 8px; }
+  .grp-up { color: var(--up); }
+  .grp-down { color: var(--down); }
+
+  /* 종목 행 */
+  .row { display: flex; align-items: center; gap: 8px; padding: 7px 0; }
+  .row + .row { border-top: 1px solid var(--border); }
+  .row .name { font-size: 14.5px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .spacer { flex: 1; }
+  .row .price { font-size: 13.5px; color: var(--text-2); font-variant-numeric: tabular-nums; }
+  .row .chg { font-size: 14px; font-weight: 700; font-variant-numeric: tabular-nums; min-width: 74px; text-align: right; }
+  .up { color: var(--up); } .down { color: var(--down); } .flat { color: var(--text-3); }
+  .hot { font-size: 13px; }
+
+  .divider { height: 1px; background: var(--border); margin: 12px 0; }
+
+  /* 텍스트 블록 */
+  .prose { font-size: 14px; color: var(--text); line-height: 1.6; }
+
+  /* 표 */
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 8px 6px; font-size: 12.5px; vertical-align: top; }
+  th { color: var(--text-3); font-weight: 700; border-bottom: 1px solid var(--border); }
+  td { border-bottom: 1px solid var(--border); color: var(--text); }
+  tr:last-child td { border-bottom: 0; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+  /* 실적 */
+  .earn { display: flex; gap: 11px; padding: 7px 0; }
+  .earn + .earn { border-top: 1px solid var(--border); }
+  .earn .d { font-size: 12.5px; font-weight: 800; color: var(--accent); width: 42px; flex: none; padding-top: 1px; }
+  .earn .n { font-size: 14px; font-weight: 700; }
+  .earn .note { font-size: 12.5px; color: var(--text-2); margin-top: 1px; }
+
+  /* 급등락 빈 상태 */
+  .empty { text-align: center; padding: 22px 0; color: var(--text-3); }
+  .empty .big { font-size: 30px; }
+  .empty p { margin: 8px 0 0; font-size: 14px; }
+
+  /* 리서치 카드 */
+  .report { cursor: pointer; transition: .15s; }
+  .report:active { transform: scale(.985); border-color: var(--accent); }
+  .report .top { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+  .report .rname { font-size: 15px; font-weight: 800; }
+  .report .rcode { font-size: 11.5px; color: var(--text-3); }
+  .report .rdate { margin-left: auto; font-size: 11.5px; color: var(--text-3); }
+  .report .rtitle { font-size: 13.5px; color: var(--text-2); margin-bottom: 12px; }
+  .report .meta { display: flex; align-items: center; gap: 7px; }
+  .tag { font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 999px; }
+  .tag.broker { background: var(--border); color: var(--text-2); }
+  .tag.buy { background: color-mix(in srgb, var(--up) 14%, transparent); color: var(--up); }
+  .report .target { margin-left: auto; font-size: 11.5px; color: var(--text-3); }
+  .report .target b { font-size: 15px; color: var(--up); margin-left: 4px; }
+  .report .open { display: flex; align-items: center; gap: 5px; margin-top: 12px; color: var(--accent); font-size: 12.5px; font-weight: 600; }
+
+  /* ===== 하단 탭 ===== */
+  nav {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+    display: flex; padding: 8px 10px calc(8px + var(--safe-bottom));
+    background: color-mix(in srgb, var(--card) 88%, transparent);
+    backdrop-filter: saturate(180%) blur(18px);
+    -webkit-backdrop-filter: saturate(180%) blur(18px);
+    border-top: 1px solid var(--border);
+  }
+  .tab {
+    flex: 1; background: none; border: 0; cursor: pointer; padding: 6px 0;
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    color: var(--text-3); font-size: 11px; font-weight: 600; transition: .15s;
+  }
+  .tab .ic { font-size: 21px; line-height: 1; }
+  .tab.active { color: var(--accent); }
+  .tab:active { transform: scale(.9); }
+
+  /* 상태 */
+  .state { text-align: center; padding: 60px 24px; color: var(--text-2); }
+  .spinner { width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--accent);
+    border-radius: 50%; margin: 0 auto 14px; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .state .emoji { font-size: 38px; }
+  .state h3 { margin: 12px 0 6px; font-size: 16px; color: var(--text); }
+  .state p { font-size: 13px; margin: 0 0 16px; white-space: pre-wrap; }
+  .btn {
+    background: var(--accent); color: #fff; border: 0; border-radius: 12px;
+    padding: 11px 22px; font-size: 14px; font-weight: 700; cursor: pointer;
+  }
+  .btn:active { background: var(--accent-press); }
+
+  /* 설정 시트 */
+  .backdrop { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 40; opacity: 0; pointer-events: none; transition: .2s; }
+  .backdrop.show { opacity: 1; pointer-events: auto; }
+  .sheet {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+    background: var(--card); border-radius: 22px 22px 0 0;
+    padding: 10px 20px calc(22px + var(--safe-bottom));
+    transform: translateY(100%); transition: transform .25s cubic-bezier(.32,.72,0,1);
+    max-width: 640px; margin: 0 auto;
+  }
+  .sheet.show { transform: translateY(0); }
+  .handle { width: 38px; height: 4px; border-radius: 2px; background: var(--border); margin: 4px auto 16px; }
+  .sheet h3 { margin: 0 0 4px; font-size: 17px; font-weight: 800; }
+  .sheet label { display: block; font-size: 12.5px; color: var(--text-2); margin: 14px 0 6px; font-weight: 600; }
+  .sheet textarea {
+    width: 100%; border: 1px solid var(--border); border-radius: 12px; padding: 12px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px;
+    background: var(--bg); color: var(--text); resize: vertical; min-height: 64px;
+  }
+  .sheet .hint { font-size: 11.5px; color: var(--text-3); margin-top: 7px; line-height: 1.5; }
+  .sheet .actions { display: flex; gap: 10px; margin-top: 18px; }
+  .sheet .actions .btn { flex: 1; text-align: center; }
+  .btn.ghost { background: var(--border); color: var(--text); }
+  .btn.ghost:active { background: var(--accent-soft); }
+  .samplebadge { display: inline-block; font-size: 10.5px; font-weight: 700; color: var(--accent);
+    background: var(--accent-soft); padding: 2px 7px; border-radius: 999px; margin-left: 6px; vertical-align: middle; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <h1><span class="dot"></span>관심종목 브리핑<span id="sampleBadge" class="samplebadge" hidden>샘플</span></h1>
+    <div class="updated" id="updated">불러오는 중…</div>
+  </div>
+  <button class="iconbtn" id="refreshBtn" title="새로고침">↻</button>
+  <button class="iconbtn" id="settingsBtn" title="설정">⚙</button>
+</header>
+
+<div class="ptr" id="ptr">↓ 당겨서 새로고침</div>
+
+<main id="main">
+  <div class="state"><div class="spinner"></div>불러오는 중…</div>
+</main>
+
+<nav>
+  <button class="tab active" data-tab="morning"><span class="ic">🌅</span>아침 브리핑</button>
+  <button class="tab" data-tab="movers"><span class="ic">⚡</span>개장 전 급등락</button>
+  <button class="tab" data-tab="research"><span class="ic">📑</span>리서치</button>
+</nav>
+
+<!-- 설정 시트 -->
+<div class="backdrop" id="backdrop"></div>
+<div class="sheet" id="sheet">
+  <div class="handle"></div>
+  <h3>설정</h3>
+  <label>데이터 주소 (DATA_URL)</label>
+  <textarea id="urlInput" spellcheck="false" autocapitalize="off" placeholder="latest.json"></textarea>
+  <div class="hint">• 기본값 <b>latest.json</b> — 같은 폴더의 latest.json을 읽습니다. 없으면 latest-sample.json → 내장 샘플 순으로 자동 대체.<br>• <b>sample</b> 입력 시 내장 샘플만 사용.<br>• GitHub raw 등 다른 JSON 주소를 직접 넣어도 됩니다.</div>
+  <div class="actions">
+    <button class="btn ghost" id="sampleBtn">샘플로</button>
+    <button class="btn" id="saveBtn">저장하고 새로고침</button>
+  </div>
+</div>
+
+<!-- 번들 샘플 데이터 -->
+<script id="sampleData" type="application/json">
+{
+  "updatedAt": "2026-06-01T08:20:00+09:00",
+  "morningBriefing": {
+    "date": "2026-06-01",
+    "priceBasis": "2026-05-29 종가",
+    "watchlistUp": [
+      { "name": "삼성전자", "price": "318,500", "change": "+6.34%", "hot": true },
+      { "name": "SK하이닉스", "price": "2,350,000", "change": "+2.66%", "hot": false },
+      { "name": "NAVER", "price": "240,000", "change": "+17.07%", "hot": true },
+      { "name": "LG씨엔에스", "price": "113,800", "change": "+29.90%", "hot": true },
+      { "name": "POSCO홀딩스", "price": "425,500", "change": "+1.30%", "hot": false },
+      { "name": "HD현대중공업", "price": "706,000", "change": "+0.28%", "hot": false }
+    ],
+    "watchlistDown": [
+      { "name": "한미반도체", "price": "288,500", "change": "-1.36%", "hot": false },
+      { "name": "산일전기", "price": "251,000", "change": "-0.79%", "hot": false },
+      { "name": "달바글로벌", "price": "196,300", "change": "-2.82%", "hot": false },
+      { "name": "미래에셋증권", "price": "61,900", "change": "-0.16%", "hot": false },
+      { "name": "DB하이텍", "price": "184,100", "change": "-5.24%", "hot": false },
+      { "name": "미래에셋벤처투자", "price": "49,000", "change": "-8.06%", "hot": false }
+    ],
+    "etfExpectedOpen": [
+      { "name": "TIGER 미국우주테크", "expectedPrice": "17,451", "expectedChange": "-3.16%" },
+      { "name": "SOL 미국AI반도체칩메이커", "expectedPrice": "30,185", "expectedChange": "+0.25%" },
+      { "name": "HANARO 미국AI메모리반도체TOP4+", "expectedPrice": "11,408", "expectedChange": "+0.25%" }
+    ],
+    "usMarket": [
+      { "name": "나스닥", "value": "26,972.62", "change": "+0.20%" },
+      { "name": "필라델피아 반도체(SOX)", "value": "12,829.38", "change": "+0.00%" },
+      { "name": "S&P500", "value": "7,580.06", "change": "+0.21%" },
+      { "name": "다우존스", "value": "51,032.46", "change": "+0.71%" },
+      { "name": "원/달러", "value": "1,509.70", "change": "+0.25%" },
+      { "name": "VIX", "value": "15.32", "change": "-0.42 (-2.66%)" }
+    ],
+    "semiDirection": "간밤 SOX +0.00%·나스닥 +0.20% 보합권 → 삼성전자·SK하이닉스·한미반도체·DB하이텍 혼조 출발 가능(상관관계 기반 추정, 확정 아님).",
+    "macro": "지정학 리스크 완화·美이란 협상·전쟁 종식 기대로 금 +1.33%·VIX 하락. 물가 하락 기대로 위험선호 강화. 6월 ISM·고용 발표가 금리 경로 변수.",
+    "economicCalendar": [
+      { "date": "6/1", "time": "23:00", "event": "美 ISM 제조업 PMI", "forecast": "", "previous": "" },
+      { "date": "6/2", "time": "23:00", "event": "美 JOLTs 구인건수", "forecast": "", "previous": "" },
+      { "date": "6/3", "time": "23:00/21:15", "event": "美 ISM 서비스업 PMI · ADP 고용", "forecast": "", "previous": "" },
+      { "date": "6/4", "time": "21:30 / 05:00~", "event": "美 주간 실업수당청구 · 브로드컴 실적", "forecast": "", "previous": "" },
+      { "date": "6/5", "time": "21:30", "event": "美 고용보고서(NFP·실업률·평균임금)", "forecast": "", "previous": "" }
+    ],
+    "releasedIndicators": [
+      { "name": "CB 소비자신뢰지수", "date": "5/26", "actual": "93.1", "forecast": "92.0", "previous": "92.8" }
+    ],
+    "earnings": [
+      { "date": "6/4", "name": "브로드컴", "note": "AI반도체 수요 가늠자" },
+      { "date": "6/25", "name": "마이크론", "note": "메모리 업황 핵심 (SK하이닉스·삼성전자·한미반도체 동조)" }
+    ]
+  },
+  "premarketMovers": {
+    "time": "2026-06-01T08:50:00+09:00",
+    "empty": false,
+    "categories": [
+      {
+        "category": "투데이",
+        "movers": [
+          { "name": "LG씨엔에스", "price": "113,800", "change": "+29.90%", "dir": "up" },
+          { "name": "NAVER", "price": "240,000", "change": "+17.07%", "dir": "up" },
+          { "name": "삼성전자", "price": "318,500", "change": "+6.34%", "dir": "up" },
+          { "name": "미래에셋벤처투자", "price": "49,000", "change": "-8.06%", "dir": "down" },
+          { "name": "DB하이텍", "price": "184,100", "change": "-5.24%", "dir": "down" }
+        ]
+      },
+      {
+        "category": "레버리지",
+        "movers": [
+          { "name": "KODEX 삼성전자레버리지", "price": "24,315", "change": "+12.05%", "dir": "up" }
+        ]
+      },
+      {
+        "category": "미국",
+        "movers": [
+          { "name": "마이크론", "price": "1,462,131", "change": "+5.14%", "dir": "up" },
+          { "name": "AST 스페이스모바일", "price": "170,772", "change": "-14.78%", "dir": "down" },
+          { "name": "카르만 홀딩스", "price": "86,583", "change": "-12.69%", "dir": "down" },
+          { "name": "파이어플라이", "price": "70,004", "change": "-5.83%", "dir": "down" },
+          { "name": "레드와이어", "price": "36,997", "change": "-5.13%", "dir": "down" },
+          { "name": "인텔", "price": "172,685", "change": "-5.13%", "dir": "down" }
+        ]
+      }
+    ]
+  },
+  "research": {
+    "date": "2026-06-01",
+    "reports": [
+      {
+        "name": "LG이노텍", "code": "011070", "title": "선명해진 다음 경로",
+        "broker": "메리츠증권", "opinion": "매수", "target": "130만원", "date": "5/29",
+        "pdfUrl": "https://consensus.hankyung.com/analysis/downpdf?report_idx=649768"
+      },
+      {
+        "name": "아모레퍼시픽", "code": "090430", "title": "1Q26 Review: 차근차근",
+        "broker": "유진투자증권", "opinion": "매수", "target": "15만원", "date": "5/29",
+        "pdfUrl": "https://consensus.hankyung.com/analysis/downpdf?report_idx=649784"
+      },
+      {
+        "name": "솔브레인", "code": "357780", "title": "무기가 다양해지고 있다",
+        "broker": "대신증권", "opinion": "매수", "target": "53만원", "date": "5/28",
+        "pdfUrl": "https://consensus.hankyung.com/analysis/downpdf?report_idx=649736"
+      }
+    ]
+  }
+}
+</script>
+
+<script>
+(function () {
+  "use strict";
+
+  const DEFAULT_DATA_URL = "latest.json";        // 배포용: 같은 폴더의 latest.json
+  const DEV_SAMPLE_FILE = "latest-sample.json";  // 개발용 샘플 파일 (latest.json 없을 때 폴백)
+  const LS_KEY = "DATA_URL";
+  const $ = (s) => document.querySelector(s);
+  const el = (t, c) => { const e = document.createElement(t); if (c) e.className = c; return e; };
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[m]));
+
+  let feed = null;
+  let currentTab = "morning";
+
+  function getURL() {
+    const v = (localStorage.getItem(LS_KEY) || DEFAULT_DATA_URL).trim();
+    return v;
+  }
+  function isSample(u) { return (u || "").trim().toLowerCase() === "sample"; }
+
+  // 등락 문자열 → 색 클래스
+  function chgClass(str) {
+    const s = String(str || "").trim();
+    if (s.startsWith("+")) return "up";
+    if (s.startsWith("-")) return "down";
+    if (s.includes("0.00%") || s.startsWith("0")) return "flat";
+    return "flat";
+  }
+
+  function prettyTime(iso) {
+    const d = new Date(iso);
+    if (isNaN(d)) return iso || "";
+    const p = (n) => String(n).padStart(2, "0");
+    return `${p(d.getMonth() + 1)}-${p(d.getDate())} ${p(d.getHours())}:${p(d.getMinutes())}`;
+  }
+
+  // ===== 데이터 로딩 =====
+  function embeddedSample() { return JSON.parse($("#sampleData").textContent); }
+  async function fetchJSON(url) {
+    const res = await fetch(url, { cache: "no-store" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.json();
+  }
+
+  async function load() {
+    const url = getURL();
+    setUpdated("불러오는 중…");
+    showState('<div class="spinner"></div>불러오는 중…');
+
+    let data, source;
+    try {
+      if (isSample(url)) {
+        // 설정에서 'sample' 을 직접 지정 → 내장 샘플
+        data = embeddedSample(); source = "embedded";
+      } else if (url === DEFAULT_DATA_URL) {
+        // 기본 동작: latest.json → (없으면) latest-sample.json → (없으면) 내장 샘플
+        try {
+          data = await fetchJSON(url); source = "live";
+        } catch (e1) {
+          try { data = await fetchJSON(DEV_SAMPLE_FILE); source = "devfile"; }
+          catch (e2) { data = embeddedSample(); source = "embedded"; }
+        }
+      } else {
+        // 사용자가 지정한 임의 주소(GitHub raw 등)
+        data = await fetchJSON(url); source = "live";
+      }
+    } catch (e) {
+      showState(
+        '<div class="emoji">⚠️</div><h3>데이터를 불러오지 못했어요</h3><p>' +
+        esc(url) + "\n" + esc(e.message || e) + "</p>",
+        true
+      );
+      setUpdated("불러오기 실패");
+      return;
+    }
+
+    feed = data;
+    console.log("[브리핑] 데이터 출처:", source, "—", url);
+    const badge = $("#sampleBadge");
+    if (source === "live") {
+      badge.hidden = true;
+    } else {
+      badge.hidden = false;
+      badge.textContent = source === "devfile" ? "샘플파일" : "샘플";
+    }
+    setUpdated((source === "live" ? "" : badge.textContent + " · ") + "업데이트 " + prettyTime(feed.updatedAt));
+    render();
+  }
+
+  function setUpdated(t) { $("#updated").textContent = t; }
+  function showState(html, withRetry) {
+    const m = $("#main");
+    m.innerHTML = '<div class="state">' + html + "</div>";
+    if (withRetry) {
+      const b = el("button", "btn"); b.textContent = "다시 시도";
+      b.onclick = load; m.querySelector(".state").appendChild(b);
+    }
+  }
+
+  // ===== 렌더 =====
+  function render() {
+    if (!feed) return;
+    const m = $("#main");
+    m.innerHTML = "";
+    if (currentTab === "morning") renderMorning(m);
+    else if (currentTab === "movers") renderMovers(m);
+    else renderResearch(m);
+    m.scrollIntoView({ block: "start" });
+    window.scrollTo(0, 0);
+  }
+
+  function card(icon, title, sub) {
+    const c = el("div", "card");
+    const h = el("div", "card-head");
+    h.innerHTML = `<div class="chip">${icon}</div><h2>${esc(title)}</h2>` +
+      (sub ? `<span class="card-sub">${esc(sub)}</span>` : "");
+    c.appendChild(h);
+    return c;
+  }
+
+  function stockRow(name, price, chg, forceClass, hot) {
+    const r = el("div", "row");
+    r.innerHTML =
+      `<span class="name">${esc(name)}</span>` +
+      (hot ? '<span class="hot">🔥</span>' : "") +
+      `<span class="spacer"></span>` +
+      `<span class="price">${esc(price)}</span>` +
+      `<span class="chg ${forceClass || chgClass(chg)}">${esc(chg)}</span>`;
+    return r;
+  }
+
+  function renderMorning(m) {
+    const mb = feed.morningBriefing;
+
+    // 관심종목
+    const c1 = card("⭐", "관심종목", mb.priceBasis);
+    const up = el("div", "grp-label grp-up"); up.textContent = "상승"; c1.appendChild(up);
+    mb.watchlistUp.forEach((s) => c1.appendChild(stockRow(s.name, s.price, s.change, "up", s.hot)));
+    c1.appendChild(el("div", "divider"));
+    const dn = el("div", "grp-label grp-down"); dn.textContent = "하락"; c1.appendChild(dn);
+    mb.watchlistDown.forEach((s) => c1.appendChild(stockRow(s.name, s.price, s.change, "down", s.hot)));
+    m.appendChild(c1);
+
+    // ETF 예상 시초가
+    const c2 = card("📊", "ETF 예상 시초가");
+    mb.etfExpectedOpen.forEach((e) => c2.appendChild(stockRow(e.name, e.expectedPrice, e.expectedChange)));
+    m.appendChild(c2);
+
+    // 간밤 미국증시
+    const c3 = card("🌎", "간밤 미국증시");
+    mb.usMarket.forEach((x) => c3.appendChild(stockRow(x.name, x.value, x.change)));
+    m.appendChild(c3);
+
+    // 반도체 방향성
+    const c4 = card("🧩", "반도체 방향성");
+    const p4 = el("div", "prose"); p4.textContent = mb.semiDirection; c4.appendChild(p4);
+    m.appendChild(c4);
+
+    // 매크로
+    const c5 = card("📈", "매크로");
+    const p5 = el("div", "prose"); p5.textContent = mb.macro; c5.appendChild(p5);
+    m.appendChild(c5);
+
+    // 경제일정
+    const c6 = card("🗓", "이번주 경제일정");
+    c6.appendChild(tableEl(
+      ["날짜", "시간", "이벤트"],
+      mb.economicCalendar.map((e) => [e.date, e.time, e.event]),
+      [false, false, false]
+    ));
+    m.appendChild(c6);
+
+    // 발표 지표
+    const c7 = card("📋", "간밤 발표 지표");
+    c7.appendChild(tableEl(
+      ["지표", "실제", "예상", "이전"],
+      mb.releasedIndicators.map((i) => [`${i.name} (${i.date})`, i.actual, i.forecast, i.previous]),
+      [false, true, true, true],
+      [null, "up", null, null]
+    ));
+    m.appendChild(c7);
+
+    // 실적
+    const c8 = card("🏛", "실적");
+    mb.earnings.forEach((e) => {
+      const row = el("div", "earn");
+      row.innerHTML = `<div class="d">${esc(e.date)}</div><div><div class="n">${esc(e.name)}</div><div class="note">${esc(e.note)}</div></div>`;
+      c8.appendChild(row);
+    });
+    m.appendChild(c8);
+  }
+
+  function tableEl(headers, rows, numCols, colorCols) {
+    const t = el("table");
+    const thead = el("thead"), trh = el("tr");
+    headers.forEach((h, i) => {
+      const th = el("th", numCols[i] ? "num" : null); th.textContent = h; trh.appendChild(th);
+    });
+    thead.appendChild(trh); t.appendChild(thead);
+    const tb = el("tbody");
+    rows.forEach((cells) => {
+      const tr = el("tr");
+      cells.forEach((cell, i) => {
+        const td = el("td", numCols[i] ? "num" : null);
+        if (colorCols && colorCols[i]) td.classList.add(colorCols[i]);
+        td.textContent = (cell === "" || cell == null) ? "–" : cell;
+        tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+    t.appendChild(tb);
+    return t;
+  }
+
+  function renderMovers(m) {
+    const pm = feed.premarketMovers;
+    if (pm.empty || !pm.categories || pm.categories.length === 0) {
+      const c = card("🌙", "오늘의 급등락");
+      const e = el("div", "empty");
+      e.innerHTML = '<div class="big">✅</div><p>오늘 ±5% 종목 없음</p>';
+      c.appendChild(e); m.appendChild(c);
+      return;
+    }
+    pm.categories.forEach((cat) => {
+      const c = card("⚡", cat.category);
+      cat.movers.forEach((mv) =>
+        c.appendChild(stockRow(mv.name, mv.price, mv.change, mv.dir === "up" ? "up" : "down"))
+      );
+      m.appendChild(c);
+    });
+  }
+
+  function renderResearch(m) {
+    feed.research.reports.forEach((r) => {
+      const c = el("div", "card report");
+      c.innerHTML =
+        `<div class="top"><span class="rname">${esc(r.name)}</span><span class="rcode">${esc(r.code)}</span><span class="rdate">${esc(r.date)}</span></div>` +
+        `<div class="rtitle">${esc(r.title)}</div>` +
+        `<div class="meta"><span class="tag broker">${esc(r.broker)}</span><span class="tag buy">${esc(r.opinion)}</span>` +
+        `<span class="target">목표가<b>${esc(r.target)}</b></span></div>` +
+        `<div class="open">🧭 리포트 PDF 열기 →</div>`;
+      c.onclick = () => { if (r.pdfUrl) window.open(r.pdfUrl, "_blank", "noopener"); };
+      m.appendChild(c);
+    });
+  }
+
+  // ===== 탭 =====
+  document.querySelectorAll(".tab").forEach((btn) => {
+    btn.onclick = () => {
+      document.querySelectorAll(".tab").forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentTab = btn.dataset.tab;
+      if (feed) render();
+    };
+  });
+
+  // ===== 새로고침 / 설정 =====
+  $("#refreshBtn").onclick = load;
+
+  const backdrop = $("#backdrop"), sheet = $("#sheet");
+  function openSheet() { $("#urlInput").value = getURL(); backdrop.classList.add("show"); sheet.classList.add("show"); }
+  function closeSheet() { backdrop.classList.remove("show"); sheet.classList.remove("show"); }
+  $("#settingsBtn").onclick = openSheet;
+  backdrop.onclick = closeSheet;
+  $("#sampleBtn").onclick = () => { $("#urlInput").value = "sample"; };
+  $("#saveBtn").onclick = () => {
+    localStorage.setItem(LS_KEY, $("#urlInput").value.trim());
+    closeSheet(); load();
+  };
+
+  // ===== 당겨서 새로고침 =====
+  let startY = 0, pulling = false;
+  const ptr = $("#ptr");
+  window.addEventListener("touchstart", (e) => {
+    if (window.scrollY <= 0) { startY = e.touches[0].clientY; pulling = true; }
+  }, { passive: true });
+  window.addEventListener("touchmove", (e) => {
+    if (!pulling) return;
+    const dy = e.touches[0].clientY - startY;
+    if (dy > 0 && window.scrollY <= 0) {
+      const h = Math.min(dy * 0.4, 56);
+      ptr.style.height = h + "px";
+      ptr.textContent = h > 48 ? "↑ 놓으면 새로고침" : "↓ 당겨서 새로고침";
+    }
+  }, { passive: true });
+  window.addEventListener("touchend", () => {
+    if (!pulling) return;
+    pulling = false;
+    const h = parseFloat(ptr.style.height) || 0;
+    ptr.style.height = "0px";
+    if (h > 48) load();
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>

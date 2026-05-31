@@ -1,0 +1,18 @@
+{
+  "name": "관심종목 브리핑",
+  "short_name": "브리핑",
+  "description": "관심종목 아침 브리핑 · 개장 전 급등락 · 리서치 뷰어",
+  "lang": "ko",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f6f8",
+  "theme_color": "#00c471",
+  "icons": [
+    { "src": "icon-180.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon.svg", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
