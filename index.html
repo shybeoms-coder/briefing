@@ -75,7 +75,7 @@
   }
   .brand { display: flex; flex-direction: column; min-width: 0; flex: 1; }
   .brand h1 {
-    font-size: 19px; font-weight: 800; margin: 0; letter-spacing: -.4px;
+    font-size: 16px; font-weight: 800; margin: 0; letter-spacing: -.4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     display: flex; align-items: center; gap: 7px;
   }
   .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex: none; }
@@ -505,7 +505,7 @@
 
     const badge = $("#sampleBadge");
     if (source === "live") { badge.hidden = true; }
-    else { badge.hidden = false; badge.textContent = source === "devfile" ? "샘플파일" : "샘플"; }
+    else { badge.hidden = true; }
 
     // 데이터 없음 처리
     if (history.length === 0) {
