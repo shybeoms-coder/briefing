@@ -1,6 +1,6 @@
 [
   {
-    "updatedAt": "2026-06-02T06:03:29.877+09:00",
+    "updatedAt": "2026-06-02T08:30:00+09:00",
     "premarketMovers": {
       "time": "2026-06-02T06:03:29.877+09:00",
       "empty": false,
@@ -585,6 +585,237 @@
           "pdfUrl": "https://consensus.hankyung.com/analysis/downpdf?report_idx=649790"
         }
       ]
+    },
+    "morningBriefing": {
+      "date": "2026-06-02",
+      "priceBasis": "2026-06-01(월) 종가",
+      "watchlistUp": [
+        {
+          "name": "LG씨에에스",
+          "price": 147900,
+          "change": "+29.96%",
+          "hot": true
+        },
+        {
+          "name": "NAVER",
+          "price": 283500,
+          "change": "+21.15%",
+          "hot": true
+        },
+        {
+          "name": "삼성전자",
+          "price": 355000,
+          "change": "+11.98%",
+          "hot": false
+        },
+        {
+          "name": "한미반도체",
+          "price": 295500,
+          "change": "+4.78%",
+          "hot": false
+        },
+        {
+          "name": "달바글로벌",
+          "price": 205000,
+          "change": "+4.06%",
+          "hot": false
+        },
+        {
+          "name": "산일전기",
+          "price": 252500,
+          "change": "+2.22%",
+          "hot": false
+        },
+        {
+          "name": "SK하이닉스",
+          "price": 2378000,
+          "change": "+1.92%",
+          "hot": false
+        },
+        {
+          "name": "코리안리",
+          "price": 12920,
+          "change": "+0.54%",
+          "hot": false
+        },
+        {
+          "name": "미래에셋증권",
+          "price": 61500,
+          "change": "+0.16%",
+          "hot": false
+        },
+        {
+          "name": "SOL미국AI반도체칩메이커(ETF)",
+          "price": 30380,
+          "change": "+0.89%",
+          "hot": false
+        },
+        {
+          "name": "HANARO미국AI메모리반도체TOP4+(ETF)",
+          "price": 11570,
+          "change": "+1.66%",
+          "hot": false
+        }
+      ],
+      "watchlistDown": [
+        {
+          "name": "미래에셋벤처투자",
+          "price": 43850,
+          "change": "-10.51%",
+          "hot": false
+        },
+        {
+          "name": "TIGER미국우주테크(ETF)",
+          "price": 17150,
+          "change": "-4.82%",
+          "hot": false
+        },
+        {
+          "name": "POSCO홀딩스",
+          "price": 413500,
+          "change": "-2.36%",
+          "hot": false
+        },
+        {
+          "name": "DB하이텍",
+          "price": 183200,
+          "change": "-1.23%",
+          "hot": false
+        },
+        {
+          "name": "HD현대중공업",
+          "price": 690000,
+          "change": "-0.86%",
+          "hot": false
+        }
+      ],
+      "etfExpectedOpen": [
+        {
+          "name": "SOL 미국AI반도체칩메이커",
+          "expectedPrice": "29,889원",
+          "expectedChange": "종가 대비 -1.62%"
+        },
+        {
+          "name": "HANARO 미국AI메모리반도체TOP4+",
+          "expectedPrice": "11,533원",
+          "expectedChange": "종가 대비 -0.32%"
+        },
+        {
+          "name": "TIGER 미국우주테크",
+          "expectedPrice": "16,942원",
+          "expectedChange": "종가 대비 -1.21%"
+        }
+      ],
+      "usMarket": [
+        {
+          "name": "나스닥",
+          "value": "27,038.71",
+          "change": "+66.09(+0.24%)"
+        },
+        {
+          "name": "SOX(필라델피아반도체)",
+          "value": "12,934.81",
+          "change": "+105.43(+0.82%)"
+        },
+        {
+          "name": "S&P500",
+          "value": "7,585.04",
+          "change": "+4.98(+0.06%)"
+        },
+        {
+          "name": "다우존스",
+          "value": "50,908.19",
+          "change": "-124.27(-0.24%)"
+        },
+        {
+          "name": "나스닥100선물",
+          "value": "30,508.00",
+          "change": "+102.75(+0.33%)"
+        },
+        {
+          "name": "원/달러",
+          "value": "1,515.26",
+          "change": "+12.06(+0.80%)"
+        },
+        {
+          "name": "VIX",
+          "value": "16.02",
+          "change": "+0.7(+4.56%)"
+        },
+        {
+          "name": "美10년국채금리",
+          "value": "4.50%",
+          "change": "+0.05(+1.12%)"
+        }
+      ],
+      "semiDirection": "SOX +0.82% 상승 마감. 삼성전자+11.98%, SK하이닉스+1.92%, 한미반도체+4.78% 전일 강세. DB하이텍 -1.23% 약세. 상관관계 기반 추정, 확정 아님.",
+      "macro": "달러강세 지속, 원달러 1,515원 돌파. 국제유가 급등(XLE +1.8%). 금 4,504원대 하락. 비트코인 약세. KOSPI 전일 +3.68% 급등.",
+      "economicCalendar": [
+        {
+          "date": "2026-06-02",
+          "time": "오후11시",
+          "event": "노동시장 신규 구인건수(JOLTs)",
+          "forecast": "",
+          "previous": ""
+        },
+        {
+          "date": "2026-06-03",
+          "time": "오후9:15",
+          "event": "비농업부문 고용변화량(ADP)",
+          "forecast": "",
+          "previous": ""
+        },
+        {
+          "date": "2026-06-03",
+          "time": "오후11시",
+          "event": "ISM 서비스업 구매관리자지수",
+          "forecast": "",
+          "previous": ""
+        },
+        {
+          "date": "2026-06-04",
+          "time": "오전5시이후",
+          "event": "브로드컴 실적발표(주요)",
+          "forecast": "",
+          "previous": ""
+        },
+        {
+          "date": "2026-06-04",
+          "time": "오후9:30",
+          "event": "주간 신규실업수당 청구건수",
+          "forecast": "",
+          "previous": ""
+        },
+        {
+          "date": "2026-06-05",
+          "time": "오후9:30",
+          "event": "비농업부문 고용지수(NFP)",
+          "forecast": "",
+          "previous": ""
+        },
+        {
+          "date": "2026-06-05",
+          "time": "오후9:30",
+          "event": "실업률",
+          "forecast": "",
+          "previous": ""
+        },
+        {
+          "date": "2026-06-05",
+          "time": "오후9:30",
+          "event": "평균임금 상승률",
+          "forecast": "",
+          "previous": ""
+        }
+      ],
+      "releasedIndicators": [],
+      "earnings": [
+        {
+          "date": "2026-06-04",
+          "name": "브로드컴(AVGO)",
+          "note": "주요 실적, 오전5시 이후 발표 예정"
+        }
+      ]
     }
   },
   {
@@ -1138,4 +1369,4 @@
       ]
     }
   }
-]
+    ]
