@@ -1,5 +1,48 @@
 [
-  {
+{
+  "updatedAt": "2026-06-01T22:07:59+09:00",
+  "research": {
+    "date": "2026-06-01",
+    "reports": [
+      {
+        "name": "LS",
+        "code": "006260",
+        "title": "실적 성장 본격화 & 주가 급락은 저가 매수 기회",
+        "broker": "대신증권",
+        "opinion": "BUY",
+        "target": 630000,
+        "date": "2026-06-01",
+        "price": 470000,
+        "change": "+5.38%",
+        "pdfUrl": "https://consensus.hankyung.com/analysis/downpdf?report_idx=649814"
+      },
+      {
+        "name": "현대로템",
+        "code": "064350",
+        "title": "바쁘게 작업중인 창원공장",
+        "broker": "LS증권",
+        "opinion": null,
+        "target": null,
+        "date": "2026-06-01",
+        "price": 218000,
+        "change": "+8.73%",
+        "pdfUrl": "https://consensus.hankyung.com/analysis/downpdf?report_idx=649793"
+      },
+      {
+        "name": "현대로템",
+        "code": "064350",
+        "title": "창원 공장 투어에서 보고 온 것들",
+        "broker": "유진투자증권",
+        "opinion": null,
+        "target": null,
+        "date": "2026-06-01",
+        "price": 218000,
+        "change": "+8.73%",
+        "pdfUrl": "https://consensus.hankyung.com/analysis/downpdf?report_idx=649790"
+      }
+    ]
+  }
+},
 {
   "updatedAt": "2026-06-02T08:55:00+09:00",
   "premarketMovers": {
