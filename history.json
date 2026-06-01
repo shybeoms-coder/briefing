@@ -1,5 +1,15 @@
 [
   {
+    "updatedAt": "2026-05-31T14:30:00+09:00",
+    "research": {
+      "date": "2026-05-31",
+      "reports": [
+        {"name":"아모레퍼시픽","code":"090430","title":"1Q26 Review: 차근차근","broker":"유진투자증권","opinion":"BUY(유지)","target":"150,000","date":"2026-05-29","price":"114,900","change":"-0.17%","pdfUrl":"https://consensus.hankyung.com/analysis/downpdf?report_idx=649784"},
+        {"name":"LG이노텍","code":"011070","title":"선명해진 다음 경로","broker":"메리츠증권","opinion":"Buy(상향)","target":"1,300,000","date":"2026-05-29","price":"1,664,000","change":"+14.13%","pdfUrl":"https://consensus.hankyung.com/analysis/downpdf?report_idx=649768"}
+      ]
+    }
+  },
+  {
     "updatedAt": "2026-06-01T09:25:00+09:00",
     "morningBriefing": {
       "date": "2026-06-01",
