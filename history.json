@@ -1,12 +1,236 @@
 [
-{
-  "updatedAt": "2026-06-03T11:16:35.083+09:00",
-  "premarketMovers": {
-    "time": "2026-06-03T11:16:35.083+09:00",
-    "empty": true,
-    "categories": []
-  }
-},
+  {
+    "updatedAt": "2026-06-03T11:25:00+09:00",
+    "premarketMovers": {
+      "time": "2026-06-03T11:16:35.083+09:00",
+      "empty": true,
+      "categories": []
+    },
+    "morningBriefing": {
+      "date": "2026-06-03",
+      "priceBasis": "직전영업일(2026-06-02) 종가 · 오늘 국내 휴장(지방선거)",
+      "watchlistUp": [
+        {
+          "name": "삼성전자",
+          "price": 362500,
+          "change": "+3.86%",
+          "hot": false
+        },
+        {
+          "name": "NAVER",
+          "price": 273500,
+          "change": "+0.73%",
+          "hot": false
+        },
+        {
+          "name": "코리안리",
+          "price": 12950,
+          "change": "+1.01%",
+          "hot": false
+        },
+        {
+          "name": "SOL미국AI반도체칩메이커(ETF)",
+          "price": 31125,
+          "change": "+2.45%",
+          "hot": false
+        },
+        {
+          "name": "HANARO미국AI메모리반도체TOP4+(ETF)",
+          "price": 11780,
+          "change": "+1.81%",
+          "hot": false
+        }
+      ],
+      "watchlistDown": [
+        {
+          "name": "LG씨엔에스",
+          "price": 126800,
+          "change": "-11.76%",
+          "hot": false
+        },
+        {
+          "name": "산일전기",
+          "price": 223000,
+          "change": "-9.89%",
+          "hot": false
+        },
+        {
+          "name": "TIGER미국우주테크(ETF)",
+          "price": 15795,
+          "change": "-7.90%",
+          "hot": false
+        },
+        {
+          "name": "미래에셋벤처투자",
+          "price": 40450,
+          "change": "-7.75%",
+          "hot": false
+        },
+        {
+          "name": "달바글로벌",
+          "price": 188600,
+          "change": "-6.86%",
+          "hot": false
+        },
+        {
+          "name": "DB하이텍",
+          "price": 171100,
+          "change": "-5.67%",
+          "hot": false
+        },
+        {
+          "name": "미래에셋증권",
+          "price": 57700,
+          "change": "-5.25%",
+          "hot": false
+        },
+        {
+          "name": "한미반도체",
+          "price": 278500,
+          "change": "-4.94%",
+          "hot": false
+        },
+        {
+          "name": "POSCO홀딩스",
+          "price": 397500,
+          "change": "-3.75%",
+          "hot": false
+        },
+        {
+          "name": "SK하이닉스",
+          "price": 2324000,
+          "change": "-1.65%",
+          "hot": false
+        },
+        {
+          "name": "HD현대중공업",
+          "price": 674000,
+          "change": "-1.46%",
+          "hot": false
+        }
+      ],
+      "etfExpectedOpen": [
+        {
+          "name": "SOL 미국AI반도체칩메이커",
+          "expectedPrice": "미확인",
+          "expectedChange": "지연 실행·국내 휴장으로 etfnow 라이브 조회 생략"
+        },
+        {
+          "name": "HANARO 미국AI메모리반도체TOP4+",
+          "expectedPrice": "미확인",
+          "expectedChange": "지연 실행·국내 휴장으로 etfnow 라이브 조회 생략"
+        },
+        {
+          "name": "TIGER 미국우주테크",
+          "expectedPrice": "미확인",
+          "expectedChange": "지연 실행·국내 휴장으로 etfnow 라이브 조회 생략"
+        }
+      ],
+      "usMarket": [
+        {
+          "name": "나스닥",
+          "value": "27,093.90",
+          "change": "+7.1(+0.02%)"
+        },
+        {
+          "name": "SOX(필라델피아반도체)",
+          "value": "13,726.27",
+          "change": "+760.62(+5.86%)"
+        },
+        {
+          "name": "S&P500",
+          "value": "7,609.78",
+          "change": "+9.82(+0.12%)"
+        },
+        {
+          "name": "다우존스",
+          "value": "51,307.79",
+          "change": "+228.91(+0.44%)"
+        },
+        {
+          "name": "나스닥100선물",
+          "value": "30,682.50",
+          "change": "-30.25(-0.09%)"
+        },
+        {
+          "name": "원/달러",
+          "value": "1,511.90",
+          "change": "+0.6(+0.03%)"
+        },
+        {
+          "name": "VIX",
+          "value": "15.77",
+          "change": "-0.28(-1.74%)"
+        },
+        {
+          "name": "美10년국채금리",
+          "value": "4.45%",
+          "change": "0(0.00%)"
+        }
+      ],
+      "semiDirection": "간밤 SOX +5.86% 급등(브로드컴 실적 기대·AI반도체 강세). 다음 한국장(6/4) 삼성전자·SK하이닉스·한미반도체·DB하이텍 강세 출발 기대. 상관관계 기반, 확정 아님.",
+      "macro": "원/달러 1,511.90(+0.03%, 외국인 주식 매도), 금 4,506.30(-0.30%), 비트코인 99,067,000(+0.35%), VIX 15.77 안정. 투자심리 개선·AI반도체 혁신.",
+      "economicCalendar": [
+        {
+          "date": "2026-06-03",
+          "time": "오후9:15",
+          "event": "비농업부문 고용변화량(ADP)",
+          "forecast": "",
+          "previous": ""
+        },
+        {
+          "date": "2026-06-03",
+          "time": "오후11시",
+          "event": "ISM 서비스업 구매관리자지수",
+          "forecast": "",
+          "previous": ""
+        },
+        {
+          "date": "2026-06-04",
+          "time": "오전5시이후",
+          "event": "브로드컴 실적발표(주요)",
+          "forecast": "",
+          "previous": ""
+        },
+        {
+          "date": "2026-06-04",
+          "time": "오후9:30",
+          "event": "주간 신규실업수당 청구건수",
+          "forecast": "",
+          "previous": ""
+        },
+        {
+          "date": "2026-06-05",
+          "time": "오후9:30",
+          "event": "비농업부문 고용지수(NFP)",
+          "forecast": "",
+          "previous": ""
+        },
+        {
+          "date": "2026-06-05",
+          "time": "오후9:30",
+          "event": "실업률",
+          "forecast": "",
+          "previous": ""
+        },
+        {
+          "date": "2026-06-05",
+          "time": "오후9:30",
+          "event": "평균임금 상승률",
+          "forecast": "",
+          "previous": ""
+        }
+      ],
+      "releasedIndicators": [],
+      "earnings": [
+        {
+          "date": "2026-06-04",
+          "name": "브로드컴(AVGO)",
+          "note": "어닝콜, 美 장전 오전5시 이후 / 투데이 관심종목 관련"
+        }
+      ]
+    }
+  },
   {
     "updatedAt": "2026-06-02T08:30:00+09:00",
     "premarketMovers": {
@@ -1377,4 +1601,4 @@
       ]
     }
   }
-          ]
+              ]
