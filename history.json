@@ -1,4 +1,24 @@
 [
+{
+  "updatedAt": "2026-06-04T23:11:00.071+09:00",
+  "research": {
+    "date": "2026-06-04",
+    "reports": [
+      {
+        "name": "현대모비스",
+        "code": "012330",
+        "title": "특별한 계약 · 새로운 가치",
+        "broker": "메리츠증권",
+        "opinion": "매수",
+        "target": "900,000",
+        "date": "2026-06-02",
+        "price": "712,000",
+        "change": "-6.19%",
+        "pdfUrl": "https://consensus.hankyung.com/analysis/downpdf?report_idx=649831"
+      }
+    ]
+  }
+},
   {
     "updatedAt": "2026-06-03T11:25:00+09:00",
     "premarketMovers": {
