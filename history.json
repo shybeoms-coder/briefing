@@ -1,5 +1,25 @@
 [
 {
+  "updatedAt": "2026-06-06T11:13:07.000+09:00",
+  "research": {
+    "date": "2026-06-06",
+    "reports": [
+      {
+        "name": "삼성SDI",
+        "code": "006400",
+        "title": "4월 EV향 data, 역성장 지속 우려",
+        "broker": "LS증권",
+        "opinion": "Hold",
+        "target": "531,000",
+        "date": "2026-06-05",
+        "price": "565,000",
+        "change": "-6.92%",
+        "pdfUrl": "https://consensus.hankyung.com/analysis/downpdf?report_idx=649855"
+      }
+    ]
+  }
+},
+{
   "updatedAt": "2026-06-04T23:11:00.071+09:00",
   "research": {
     "date": "2026-06-04",
